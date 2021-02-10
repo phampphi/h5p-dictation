@@ -28,7 +28,10 @@ class Dictation extends H5P.Question {
         tries: Infinity,
         triesAlternative: Infinity,
         customTypoDisplay: false,
-        typoFactor: '100'
+        typoFactor: '100',
+        autoplay: false,
+        playerMode: 'minimalistic',
+        autoplayDelay: 0
       },
       l10n: {
         generalFeedback: 'You have made @total mistake(s).',
@@ -147,7 +150,10 @@ class Dictation extends H5P.Question {
               playAudio: (button) => {
                 this.handlePlayAudio(button);
               }
-            }
+            },
+            playerMode: this.params.behaviour.playerMode,
+            autoplay: this.params.behaviour.autoplay && index === 0,
+            autoplayDelay: this.params.behaviour.autoplayDelay
           },
           this.contentId,
           previousState)
@@ -249,6 +255,20 @@ class Dictation extends H5P.Question {
       }, false, {
         'aria-label': this.params.a11y.retry
       }, {});
+    };
+
+    /**
+    * Play audio.
+    */
+    this.play = () => {
+      this.sentences[0].buttonPlayNormal.play();
+    };
+
+    /**
+    * Stop audio.
+    */
+    this.pause = () => {
+      this.sentences[0].buttonPlayNormal.pause();
     };
 
     /**

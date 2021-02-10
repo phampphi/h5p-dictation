@@ -63,13 +63,16 @@ class Button {
    * @return {object} DOM element for the sample.
    */
   createAudioDOM(id, params) {
-    const $audioWrapper = H5P.jQuery('<div>', {'class': Button.AUDIO_WRAPPER});
+    const $audioWrapper = H5P.jQuery('<div>', {'class': Button.AUDIO_WRAPPER + ' ' + params.playerMode});
 
     if (params.sample !== undefined) {
       // H5P.Audio
       const audioDefaults = {
         files: params.sample,
-        audioNotSupported: params.audioNotSupported
+        audioNotSupported: params.audioNotSupported,
+        playerMode: params.playerMode,
+        autoplay: params.autoplay,
+        autoplayDelay: params.autoplayDelay
       };
 
       const audio = new H5P.Audio(
@@ -81,12 +84,12 @@ class Button {
       );
       audio.attach($audioWrapper);
 
-      this.button = audio.$audioButton.get(0);
+      this.button = audio.$audioButton && audio.$audioButton.get(0);
 
       this.audio = audio;
 
       if (params.type === Button.BUTTON_TYPE_SLOW) {
-        audio.$audioButton
+        audio.$audioButton && audio.$audioButton
           .removeClass(Button.BUTTON_PLAY)
           .addClass(Button.BUTTON_SLOW);
         this.setLabel(params.a11y.playSlowly);
@@ -103,14 +106,14 @@ class Button {
       // Set from previous state
       if (this.previousState.audio && this.previousState.audio.currentTime !== 0) {
         this.status = Button.STATUS_PAUSE;
-        audio.$audioButton.addClass(Button.BUTTON_PLAY_PAUSED);
+        audio.$audioButton && audio.$audioButton.addClass(Button.BUTTON_PLAY_PAUSED);
       }
 
       // Event Listener Play
       audio.audio.addEventListener('play', () => {
 
         if (params.type === Button.BUTTON_TYPE_SLOW) {
-          audio.$audioButton
+          audio.$audioButton && audio.$audioButton
             .removeClass(Button.BUTTON_SLOW)
             .addClass(Button.BUTTON_PAUSE);
         }
@@ -124,7 +127,7 @@ class Button {
       audio.audio.addEventListener('pause', () => {
 
         if (params.type === Button.BUTTON_TYPE_SLOW) {
-          audio.$audioButton
+          audio.$audioButton && audio.$audioButton
             .removeClass(Button.BUTTON_PAUSE)
             .addClass(Button.BUTTON_SLOW);
         }
@@ -137,7 +140,7 @@ class Button {
         this.handlePlayed();
 
         if (params.type === Button.BUTTON_TYPE_SLOW) {
-          audio.$audioButton
+          audio.$audioButton && audio.$audioButton
             .removeClass(Button.BUTTON_PAUSE)
             .addClass(Button.BUTTON_SLOW);
           this.setLabel(this.params.a11y.playSlowly);
@@ -186,18 +189,23 @@ class Button {
    * Play.
    */
   play() {
-    if (this.status !== Button.STATUS_PLAYING) {
+    if (this.status == Button.STATUS_PLAYING)  return;
+
+    if (this.button) 
       this.button.click();
-    }
+    else if (this.audio) 
+      this.audio.play();
   }
 
   /**
    * Pause.
    */
   pause() {
-    if (this.status === Button.STATUS_PLAYING) {
+    if (this.status !== Button.STATUS_PLAYING) return;
+    if (this.button) 
       this.button.click();
-    }
+    else if (this.audio) 
+      this.audio.stop();
   }
 
   /**

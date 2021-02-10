@@ -5,7 +5,6 @@
   font-weight: normal;
   font-style: normal;
 }
-.h5p-dictation {}
 .h5p-dictation-no-content {
   width: auto;
   font-size: 1.5em;
@@ -39,6 +38,16 @@
   width: 1.5em;
   height: 1.5em;
 }
+.h5p-dictation .h5p-dictation-audio-wrapper.full,
+.h5p-dictation .h5p-input-wrapper.full {
+  display: block;
+  width: 98%;
+  height: auto;
+}
+.h5p-dictation .h5p-dictation-audio-wrapper.full > audio {
+  width: 100%;
+}
+
 .h5p-dictation .h5p-dictation-audio-wrapper.hide {
   visibility: hidden;
 }
@@ -50,6 +59,7 @@
   padding-left: 0.25em;
   flex-grow: 1;
 }
+
 .h5p-dictation .h5p-solution-container {
   position: relative;
   width: calc(100% - 0.5em);
@@ -110,7 +120,6 @@
   content: "\f04c";
 }
 .h5p-dictation .h5p-text-input {
-  font-family: H5PDroidSans, sans-serif;
   font-size: 1em;
   border-radius: 0.25em;
   border: 1px solid #a0a0a0;
@@ -119,6 +128,7 @@
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
+  height: 2em;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
@@ -138,8 +148,6 @@
 .h5p-dictation .h5p-answer-added, .h5p-dictation .h5p-answer-wrong, .h5p-dictation .h5p-answer-typo {
   text-decoration: line-through;
 }
-.h5p-dictation .h5p-answer-missing, .h5p-dictation .h5p-answer-match {}
-.h5p-dictation .h5p-solution-added, .h5p-dictation .h5p-solution-wrong, .h5p-dictation .h5p-solution-typo, .h5p-dictation .h5p-solution-missing, .h5p-dictation .h5p-solution-match {}
 .h5p-dictation .h5p-wrapper-wrong, .h5p-dictation .h5p-wrapper-missing, .h5p-dictation .h5p-wrapper-added {
   background-color: #f7d0d0;
   border: 1px solid #f7d0d0;

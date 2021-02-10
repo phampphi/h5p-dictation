@@ -179,6 +179,43 @@
     "description": "These options will let you control how the task behaves.",
     "fields": [
       {
+        "name": "playerMode",
+        "type": "select",
+        "importance": "low",
+        "label": "Player mode",
+        "description": "Select the layout of the player.",
+        "options": [
+          {
+            "value": "minimalistic",
+            "label": "Minimalistic"
+          },
+          {
+            "value": "full",
+            "label": "Full"
+          },
+          {
+            "value": "transparent",
+            "label": "Transparent"
+          }
+        ],
+        "default": "minimalistic"
+      },
+      {
+        "name": "autoplay",
+        "type": "boolean",
+        "importance": "low",
+        "label": "Enable autoplay",
+        "description": "With autoplay the audio of the fist sentence starts to play immediately. If autoplay is disabled the user presses a play button to start the audio.",
+        "default": false
+      },
+      {
+        "name": "autoplayDelay",
+        "type": "number",
+        "label": "Autoplay Delay",
+        "description": "Delay (in seconds) before the audio of the first sentence starts to play immediately.",
+        "optional": true
+      },
+      {
         "name": "tries",
         "type": "number",
         "label": "Maximum tries",

@@ -72,7 +72,10 @@ class Sentence {
           playAudio: (button) => {
             this.params.callbacks.playAudio(button);
           }
-        }
+        },
+        playerMode: params.playerMode,
+        autoplay: params.autoplay,
+        autoplayDelay: params.autoplayDelay
       },
       previousState.buttonPlayNormal
     );
@@ -92,7 +95,8 @@ class Sentence {
             playAudio: (button) => {
               this.params.callbacks.playAudio(button);
             }
-          }
+          },
+          playerMode: params.playerMode,
         },
         previousState.buttonPlaySlow
       );
@@ -153,6 +157,7 @@ class Sentence {
     // Sentence input field and solution
     this.inputWrapper = document.createElement('div');
     this.inputWrapper.classList.add(Sentence.INPUT_WRAPPER);
+    this.inputWrapper.classList.add(params.playerMode);
     this.inputWrapper.appendChild(this.inputField);
     this.inputWrapper.appendChild(this.solution.getDOM());
     contentInteraction.appendChild(this.inputWrapper);
