@@ -541,6 +541,9 @@ class Dictation extends H5P.Question {
 
       // Fallback CRP with only first gap variation
       definition.correctResponsesPattern = this.buildxAPICRP(gapVariations.slice());
+      
+      // Add title for h5p-php-reporting
+      definition.extensions.title = definition.name['en-US'];
 
       return definition;
     };
