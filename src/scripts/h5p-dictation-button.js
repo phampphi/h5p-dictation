@@ -100,7 +100,7 @@ class Button {
 
       // Set from previous state
       if (this.triesLeft < 1) {
-        this.audio.disableToggleButton();
+        this.disable();
       }
 
       // Set from previous state
@@ -189,7 +189,7 @@ class Button {
    * Play.
    */
   play() {
-    if (this.status == Button.STATUS_PLAYING)  return;
+    if (this.status == Button.STATUS_PLAYING || this.triesLeft < 1)  return;
 
     if (this.button) 
       this.button.click();
@@ -213,7 +213,7 @@ class Button {
    */
   handlePlayed() {
     this.triesLeft--;
-    if (this.triesLeft === 0) {
+    if (this.triesLeft < 1) {
       this.disable();
     }
   }
@@ -284,9 +284,10 @@ class Button {
    * Disable button.
    */
   disable() {
-    if (this.button) {
+    if (this.button) 
       this.audio.disableToggleButton();
-    }
+    else 
+      this.audio.disableAudio();
   }
 
   /**
