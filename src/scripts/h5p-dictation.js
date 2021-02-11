@@ -281,18 +281,7 @@ class Dictation extends H5P.Question {
       });
     };
 
-    /**
-     * Show the evaluation for the input in the text input fields.
-     */
-    this.showEvaluation = () => {
-      this.computedResults = this.sentences.map(sentence => {
-        return sentence.computeResults();
-      });
-
-      this.sentences.forEach(sentence => {
-        sentence.disable();
-      });
-
+    this.processComputedResults = () => {
       // Sum up the scores of all sentences
       const scoreTotal = this.computedResults
         .map(result => result.score)
@@ -315,6 +304,23 @@ class Dictation extends H5P.Question {
       // Number of mistakes shall not be higher than number of words.
       this.mistakesCapped = Math.min(mistakesTotal, this.maxMistakes);
       this.correctTotal = scoreTotal.match + scoreTotal.typo * (1 - this.params.behaviour.typoFactor);
+
+      return {scoreTotal, mistakesTotal};
+    }
+
+    /**
+     * Show the evaluation for the input in the text input fields.
+     */
+    this.showEvaluation = () => {
+      this.computedResults = this.sentences.map(sentence => {
+        return sentence.computeResults();
+      });
+
+      this.sentences.forEach(sentence => {
+        sentence.disable();
+      });
+
+      const {scoreTotal, mistakesTotal} = this.processComputedResults();
 
       let generalFeedback;
       if (this.params.behaviour.zeroMistakeMode) {
@@ -465,6 +471,7 @@ class Dictation extends H5P.Question {
         context.extensions[Dictation.XAPI_REPORTING_VERSION_EXTENSION] = Dictation.XAPI_REPORTING_VERSION;
       }
 
+      this.processComputedResults();
       xAPIEvent.setScoredResult(this.getScore(), this.getMaxScore(), this,
         true, this.isPassed());
 
@@ -480,7 +487,7 @@ class Dictation extends H5P.Question {
 
       // Concatenate input from sentences
       xAPIEvent.data.statement.result.response = response;
-
+      console.log(xAPIEvent.data.statement)  ;
       return xAPIEvent;
     };
 
